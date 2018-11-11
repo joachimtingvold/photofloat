@@ -278,7 +278,11 @@ class Photo(object):
 				break
 				
 		# use time from EXIF (rather than file creation)
-		if info['format']['tags']['creation_time']:
+		try:
+			info['format']['tags']['creation_time']
+		except KeyError:
+			self._attributes["videoCreateDate"] = self._attributes["dateTimeFile"]
+		else:
 			# we have time modifiable via exif
 			# lets use this
 			
@@ -470,9 +474,19 @@ class Photo(object):
 		if os.path.exists(transcode_path) and file_mtime(transcode_path) >= self._attributes["dateTimeFile"]:
 			self._video_metadata(transcode_path, False)
 			return
-		if "originalSize" in self._attributes and self._attributes["originalSize"][1] > 720:
-			transcode_cmd.append('-s')
-			transcode_cmd.append('hd720')
+		if "originalSize" in self._attributes:
+			width = self._attributes["originalSize"][0]
+			height = self._attributes["originalSize"][1]
+			if width > height:
+				# horisontal orientation
+				if height > 720:
+					transcode_cmd.append('-vf')
+					transcode_cmd.append('scale=-1:720')
+			elif (height > width) or (width == height):
+				# vertical orientation, or equal sides
+				if width > 720:
+					transcode_cmd.append('-vf')
+					transcode_cmd.append('scale=720:-1')
 		if "rotate" in self._attributes:
 			if self._attributes["rotate"] == "90":
 				filters.append('transpose=1')
