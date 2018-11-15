@@ -281,18 +281,18 @@ class Photo(object):
 		try:
 			info['format']['tags']['creation_time']
 		except KeyError:
-			self._attributes["videoCreateDate"] = self._attributes["dateTimeFile"]
+			pass
 		else:
 			# we have time modifiable via exif
 			# lets use this
 			
 			try:
-				self._attributes["videoCreateDate"] = datetime.strptime(info['format']['tags']['creation_time'], '%Y-%m-%d %H:%M:%S')
+				self._attributes["dateTimeVideo"] = datetime.strptime(info['format']['tags']['creation_time'], '%Y-%m-%d %H:%M:%S')
 			except KeyboardInterrupt:
 				raise
 			except TypeError:
 				pass
-						
+			
 	def _photo_thumbnail(self, original_path, thumb_path, size, square=False):
 		try:
 			image = Image.open(original_path)
@@ -545,8 +545,8 @@ class Photo(object):
 		correct_date = None;
 		if not self.is_valid:
 			correct_date = datetime(1900, 1, 1)
-		if "videoCreateDate" in self._attributes:
-			correct_date = self._attributes["videoCreateDate"]
+		if "dateTimeVideo" in self._attributes:
+			correct_date = self._attributes["dateTimeVideo"]
 		elif "dateTimeOriginal" in self._attributes:
 			correct_date = self._attributes["dateTimeOriginal"]
 		elif "dateTime" in self._attributes:
@@ -557,9 +557,11 @@ class Photo(object):
 
 	def __cmp__(self, other):
 		date_compare = cmp(self.date, other.date)
+		
 		if date_compare == 0:
 			return cmp(self.name, other.name)
 		return date_compare
+		
 	@property
 	def attributes(self):
 		return self._attributes
