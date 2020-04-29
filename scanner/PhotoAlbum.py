@@ -351,6 +351,17 @@ class Photo(object):
 			image = image.crop((left, top, right, bottom))
 			gc.collect()
 		image.thumbnail((size, size), Image.ANTIALIAS)
+		
+		# convert mode to RGB before saving
+		# needed for png images
+		if not image.mode == 'RGB':
+			try:
+				image = image.convert('RGB')
+			except:
+				message("convert failure", os.path.basename(thumb_path))
+				pass
+
+		# save thumbnail
 		try:
 			image.save(thumb_path, "JPEG", quality=88)
 		except KeyboardInterrupt:
