@@ -269,15 +269,12 @@ class Photo(object):
 
 		# use time from EXIF (rather than file creation)
 		try:
-			info['format']['tags']['creation_time']
+			info['format']['tags']['com.apple.quicktime.creationdate']
 		except KeyError:
 			pass
 		else:
-			# we have time modifiable via exif
-			# lets use this
-
 			try:
-				self._attributes["dateTimeVideo"] = dateutil.parser.parse(info['format']['tags']['creation_time']).replace(tzinfo=None)
+				self._attributes["dateTimeVideo"] = dateutil.parser.parse(info['format']['tags']['com.apple.quicktime.creationdate']).replace(tzinfo=None)
 			except KeyboardInterrupt:
 				raise
 			except TypeError:
