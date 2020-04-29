@@ -2,7 +2,7 @@ from CachePath import message
 import os
 import subprocess
 
-class VideoToolWrapper(object):
+class ToolWrapper(object):
 	def call(self, *args):
 		path = args[-1]
 		for tool in self.wrappers:
@@ -34,14 +34,20 @@ class VideoToolWrapper(object):
 		except:
 			pass
 
-class VideoTranscodeWrapper(VideoToolWrapper):
+class VideoTranscodeWrapper(ToolWrapper):
 	def __init__(self):
 		self.wrappers = ['avconv', 'ffmpeg']
 		self.check_output = False
 		self.cleanup = True
 
-class VideoProbeWrapper(VideoToolWrapper):
+class VideoProbeWrapper(ToolWrapper):
 	def __init__(self):
 		self.wrappers = ['avprobe', 'ffprobe']
+		self.check_output = True
+		self.cleanup = False
+
+class ExiftoolWrapper(ToolWrapper):
+	def __init__(self):
+		self.wrappers = ['exiftool']
 		self.check_output = True
 		self.cleanup = False

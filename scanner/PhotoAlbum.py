@@ -8,7 +8,7 @@ from datetime import datetime
 from multiprocessing import Pool
 from PIL import Image
 from PIL.ExifTags import TAGS
-from VideoToolWrapper import *
+from ToolWrapper import *
 
 def make_photo_thumbs(self, original_path, thumb_path, size):
 	# The pool methods use a queue.Queue to pass tasks to the worker processes.
