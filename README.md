@@ -1,6 +1,6 @@
 # PhotoFloat
 ### A Web 2.0 Photo Gallery Done Right via Static JSON & Dynamic Javascript
-#### by Jason A. Donenfeld (<Jason@zx2c4.com>)
+#### by Jason A. Donenfeld (<Jason@zx2c4.com>), modified by Joachim Tingvold (<joachim@tingvold.com>)
 
 ![Screenshot](http://data.zx2c4.com/photo-float-small.jpg)
 
@@ -35,11 +35,29 @@ The JavaScript application consists of a single `index.html` file with a single 
 
 It is, essentially, the slickest and fastest, most minimal but still well-featured photo gallery app on the net.
 
+Changes from 'stock' PhotoFloat:
+
+* HTML5-ified somewhat (including video support)
+* Thumb generation is now threaded to save some time
+* Threaded transcoding of videos
+* Images are preloaded to avoid having to wait
+* All JavaScript libraries was updated (including broken jQuery Mousewheel)
+* Removed the Java-crap to minify .js/.css-files
+* Use external minify-service that doesn't require any installed binaries
+* Add logic to check that thumbs/transcode actually exist (to make sure they are recreated if deleted)
+* Use more sane values for video transcoding (i.e. H264 rather than WebM)
+* Handle old and weird videos (we try several types of transcodes)
+* Improved loading of videos when browsing galleries
+* Lots of bugfixes
+* Properly handle PNG images (thumbs and timestamps from EXIF)
+* Better handling of timestamps in general
+
+
 ## Installation
 
 #### Download the source code from the git repository:
 
-    $ git clone git://git.zx2c4.com/PhotoFloat
+    $ git clone https://github.com/tingvold/photofloat.git
     $ cd PhotoFloat
 
 #### Change or delete the Google Analytics ID tracker:
