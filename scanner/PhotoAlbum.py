@@ -174,25 +174,25 @@ class Photo(object):
 				# try to fetch "Datemodify" first
 				# then "DateCreated" if not
 				try:
-			    info[0]["Datemodify"]
+					info[0]['Datemodify']
 				except KeyError:
 					try:
-						info[0]["DateCreated"]
+						info[0]['DateCreated']
 					except KeyError:
 						return
 					else:
 						try:
-							self._attributes["dateTimeOriginal"] = dateutil.parser.parse(info[0]["DateCreated"]).replace(tzinfo=None)
+							self._attributes["dateTimeOriginal"] = dateutil.parser.parse(info[0]['DateCreated']).replace(tzinfo=None)
 						except KeyboardInterrupt:
 							raise
-						except TypeError:
+						else:
 							return
 				else:
 					try:
-						self._attributes["dateTimeOriginal"] = dateutil.parser.parse(info[0]["Datemodify"]).replace(tzinfo=None)
+						self._attributes["dateTimeOriginal"] = dateutil.parser.parse(info[0]['Datemodify']).replace(tzinfo=None)
 					except KeyboardInterrupt:
 						raise
-					except TypeError:
+					else:
 						return
 			else:
 				# for all other image types than png
@@ -201,7 +201,7 @@ class Photo(object):
 		exif = {}
 		for tag, value in info.items():
 			decoded = TAGS.get(tag, tag)
-      if (isinstance(value, tuple) or isinstance(value, list)) and (isinstance(decoded, str) or isinstance(decoded, unicode)) and decoded.startswith("DateTime") and len(value) >= 1:
+			if (isinstance(value, tuple) or isinstance(value, list)) and (isinstance(decoded, str) or isinstance(decoded, unicode)) and decoded.startswith("DateTime") and len(value) >= 1:
 				value = value[0]
 			if isinstance(value, str) or isinstance(value, unicode):
 				value = value.strip().partition("\x00")[0]
