@@ -104,7 +104,7 @@ $(document).ready(function() {
 				link.append(image);
 				photos.push(link);
 				(function(theLink, theImage, theAlbum) {
-					theImage.error(function() {
+					theImage.on("error", function() {
 						photos.splice(photos.indexOf(theLink), 1);
 						theLink.remove();
 						theAlbum.photos.splice(theAlbum.photos.indexOf(theImage.get(0).photo), 1);
@@ -225,7 +225,7 @@ $(document).ready(function() {
 				.attr("src", photoSrc)
 				.attr("alt", currentPhoto.name)
 				.attr("title", currentPhoto.date)
-				.load(scaleImage);
+				.on("load", scaleImage);
 			$("head").append("<link rel=\"image_src\" href=\"" + photoSrc + "\" />");
 			$("#video-box-inner").empty();
 			$("#video-box").hide();
