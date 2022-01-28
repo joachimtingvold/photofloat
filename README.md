@@ -57,7 +57,7 @@ Changes from 'stock' PhotoFloat:
 
 #### Download the source code from the git repository:
 
-    $ git clone https://github.com/tingvold/photofloat.git
+    $ git clone https://github.com/joachimtingvold/photofloat.git
     $ cd PhotoFloat
 
 #### Change or delete the Google Analytics ID tracker:
